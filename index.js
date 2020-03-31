@@ -61,7 +61,7 @@ z
     if (defaultIndex && listItems.length > defaultIndex) {
       this.setState({
         listItems,
-        item: listItems[defaultIndex]
+        item: this.props.value || defaultItemValue
       });
     } else {
       this.setState({ listItems });
