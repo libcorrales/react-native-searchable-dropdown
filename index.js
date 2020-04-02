@@ -23,18 +23,20 @@ export default class SearchableDropDown extends Component {
     this.state = {
       item: {},
       listItems: [],
-      focus: false
+      focus: false,
+      text: '',
     };
   }
 
   renderFlatList = () => {
     if (this.state.focus) {
       const flatListProps = { ...this.props.listProps };
+      const addCustomerItem = [{id: 1, name: 'Add new customer'}];
       const oldSupport = [
         { key: 'keyboardShouldPersistTaps', val: 'always' },
         { key: 'nestedScrollEnabled', val : false },
         { key: 'style', val : { ...this.props.itemsContainerStyle } },
-        { key: 'data', val : this.state.listItems },
+        { key: 'data', val : this.state.listItems && this.state.listItems.length > 0 ? this.state.listItems : addCustomerItem },
         { key: 'keyExtractor', val : (item, index) => index.toString() },
         { key: 'renderItem', val : ({ item, index }) => this.renderItems(item, index) },
       ];
@@ -69,6 +71,7 @@ z
   };
 
   searchedItems = searchedText => {
+    searchedText !== 'Add new customer' && this.setState({text: searchedText});
     let setSort = this.props.setSort;
     if (!setSort && typeof setSort !== 'function') {
         setSort = (item, searchedText) => {
@@ -127,6 +130,10 @@ z
           onPress={() => {
             this.setState({ item: item, focus: false });
             Keyboard.dismiss();
+            if (item.name==='Add new customer') {
+              item.name = this.state.text;
+              this.props.onAddNew();
+            }
             setTimeout(() => {
               this.props.onItemSelect(item);
               if (this.props.resetValue) {
@@ -173,6 +180,7 @@ z
             item: defaultItemValue,
             listItems: this.props.items
           });
+          this.props.onPress && this.props.onPress();
         }
       },
       {
