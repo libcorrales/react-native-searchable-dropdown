@@ -31,7 +31,7 @@ export default class SearchableDropDown extends Component {
   renderFlatList = () => {
     if (this.state.focus) {
       const flatListProps = { ...this.props.listProps };
-      const addCustomerItem = [{id: 1, name: 'Add new customer'}];
+      const addCustomerItem = [{id: 1, name: this.props.addButtonText}];
       const oldSupport = [
         { key: 'keyboardShouldPersistTaps', val: 'always' },
         { key: 'nestedScrollEnabled', val : false },
@@ -71,7 +71,7 @@ z
   };
 
   searchedItems = searchedText => {
-    searchedText !== 'Add new customer' && this.setState({text: searchedText});
+    searchedText !== this.props.addButtonText && this.setState({text: searchedText});
     let setSort = this.props.setSort;
     if (!setSort && typeof setSort !== 'function') {
         setSort = (item, searchedText) => {
@@ -130,7 +130,7 @@ z
           onPress={() => {
             this.setState({ item: item, focus: false });
             Keyboard.dismiss();
-            if (item.name==='Add new customer') {
+            if (item.name===this.props.addButtonText) {
               item.name = this.state.text;
               this.props.onAddNew();
             }
