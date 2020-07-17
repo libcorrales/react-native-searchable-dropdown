@@ -31,7 +31,7 @@ export default class SearchableDropDown extends Component {
   renderFlatList = () => {
     if (this.state.focus) {
       const flatListProps = { ...this.props.listProps };
-      const addCustomerItem = [{id: 1, name: this.props.addButtonText}];
+      const addCustomerItem = [{Id: 1, [this.props.firstKey]: this.props.addButtonText}];
       const oldSupport = [
         { key: 'keyboardShouldPersistTaps', val: 'always' },
         { key: 'nestedScrollEnabled', val : false },
@@ -75,7 +75,7 @@ z
     let setSort = this.props.setSort;
     if (!setSort && typeof setSort !== 'function') {
         setSort = (item, searchedText) => {
-          return item.name.toLowerCase().indexOf(searchedText.toLowerCase()) > -1
+          return item[this.props.firstKey].toLowerCase().indexOf(searchedText.toLowerCase()) > -1
         };
     }
     var ac = this.props.items.filter((item) => {
@@ -97,11 +97,11 @@ z
   renderItems = (item, index) => {
     if(this.props.multi && this.props.selectedItems && this.props.selectedItems.length > 0) {
       return (
-          this.props.selectedItems.find(sitem => sitem.id === item.id)
+          this.props.selectedItems.find(sitem => sitem.Id === item.Id)
           ?
           <TouchableOpacity style={{ ...this.props.itemStyle, flex: 1, flexDirection: 'row' }}>
             <View style={{ flex: 0.9, flexDirection: 'row', alignItems: 'flex-start' }}>
-              <Text>{ item.name }</Text>
+              <Text>{ item[this.props.firstKey] }</Text>
             </View>
             <View style={{ flex: 0.1, flexDirection: 'row', alignItems: 'flex-end' }}>
               <TouchableOpacity onPress={() => setTimeout(() => { this.props.onRemoveItem(item, index) }, 0) } style={{ backgroundColor: '#f16d6b', alignItems: 'center', justifyContent: 'center', width: 25, height: 25, borderRadius: 100, marginLeft: 10}}>
@@ -119,7 +119,7 @@ z
           }}
           style={{ ...this.props.itemStyle, flex: 1, flexDirection: 'row' }}>
             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-start' }}>
-              <Text>{ item.name }</Text>
+              <Text>{ item[this.props.firstKey] }</Text>
             </View>
           </TouchableOpacity>
       )
@@ -130,8 +130,8 @@ z
           onPress={() => {
             this.setState({ item: item, focus: false });
             Keyboard.dismiss();
-            if (item.name===this.props.addButtonText) {
-              item.name = this.state.text;
+            if (item[this.props.firstKey]===this.props.addButtonText) {
+              item[this.props.firstKey] = this.state.text;
               this.props.onAddNew();
             }
             setTimeout(() => {
@@ -144,16 +144,16 @@ z
           }}
         >
           {
-            this.props.selectedItems && this.props.selectedItems.length > 0 && this.props.selectedItems.find(x => x.id === item.id)
+            this.props.selectedItems && this.props.selectedItems.length > 0 && this.props.selectedItems.find(x => x.Id === item.Id)
             ?
             <>
-              <Text style={{ ...this.props.itemTextStyle }}>{item.name}</Text>
-              {item.address &&<Text style={{...this.props.subitemTextStyle}}>{item.address}</Text>}
+              <Text style={{ ...this.props.itemTextStyle }}>{item[this.props.firstKey]}</Text>
+              {item[this.props.secondKey] &&<Text style={{...this.props.subitemTextStyle}}>{item[this.props.secondKey]}</Text>}
               </>
             :
             <>
-              <Text style={{ ...this.props.itemTextStyle }}>{item.name}</Text>
-              {item.address &&<Text style={{...this.props.subitemTextStyle}}>{item.address}</Text>}
+              <Text style={{ ...this.props.itemTextStyle }}>{item[this.props.firstKey]}</Text>
+              {item[this.props.secondKey] &&<Text style={{...this.props.subitemTextStyle}}>{item[this.props.secondKey]}</Text>}
               </>
           }
         </TouchableOpacity>
@@ -192,7 +192,7 @@ z
       },
       {
         key: 'value',
-        val: this.state.item.name
+        val: this.state.item[this.props.firstKey]
       },
       {
         key: 'style',
@@ -246,7 +246,7 @@ z
                  { items.map((item, index) => {
                      return (
                          <View key={index} style={{
-                                 width: (item.name.length * 8) + 60,
+                                 width: (item[this.props.firstKey].length * 8) + 60,
                                  justifyContent: 'center',
                                  flex: 0,
                                  backgroundColor: '#eee',
@@ -256,7 +256,7 @@ z
                                  padding: 8,
                                  borderRadius: 15,
                              }}>
-                             <Text style={{ color: '#555' }}>{item.name}</Text>
+                             <Text style={{ color: '#555' }}>{item[this.props.firstKey]}</Text>
                              <TouchableOpacity onPress={() => setTimeout(() => { this.props.onRemoveItem(item, index) }, 0) } style={{ backgroundColor: '#f16d6b', alignItems: 'center', justifyContent: 'center', width: 25, height: 25, borderRadius: 100, marginLeft: 10}}>
                                  <Text>X</Text>
                              </TouchableOpacity>
