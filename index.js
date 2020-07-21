@@ -75,7 +75,7 @@ z
     let setSort = this.props.setSort;
     if (!setSort && typeof setSort !== 'function') {
         setSort = (item, searchedText) => {
-          return item[this.props.firstKey].toLowerCase().indexOf(searchedText.toLowerCase()) > -1
+          return item[this.props.firstKey]?.toLowerCase()?.indexOf(searchedText?.toLowerCase()) > -1
         };
     }
     var ac = this.props.items.filter((item) => {
