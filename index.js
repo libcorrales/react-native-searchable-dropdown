@@ -148,12 +148,12 @@ z
             ?
             <>
               <Text style={{ ...this.props.itemTextStyle }}>{item[this.props.firstKey]}</Text>
-              {item[this.props.secondKey] &&<Text style={{...this.props.subitemTextStyle}}>{item[this.props.secondKey]}</Text>}
+              {!!item[this.props.secondKey] && <Text style={{...this.props.subitemTextStyle}}>{item[this.props.secondKey]}</Text>}
               </>
             :
             <>
               <Text style={{ ...this.props.itemTextStyle }}>{item[this.props.firstKey]}</Text>
-              {item[this.props.secondKey] &&<Text style={{...this.props.subitemTextStyle}}>{item[this.props.secondKey]}</Text>}
+              {!!item[this.props.secondKey] && <Text style={{...this.props.subitemTextStyle}}>{item[this.props.secondKey]}</Text>}
               </>
           }
         </TouchableOpacity>
