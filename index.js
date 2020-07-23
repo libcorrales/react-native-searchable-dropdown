@@ -56,7 +56,7 @@ export default class SearchableDropDown extends Component {
       );
     }
   };
-z
+
   componentDidMount = () => {
     const listItems = this.props.items;
     const defaultIndex = this.props.defaultIndex;
@@ -69,6 +69,12 @@ z
       this.setState({ listItems });
     }
   };
+
+  componentDidUpdate = prevProps => {
+    if (prevProps.value !== this.props.value) {
+      this.setState({ item: this.props.value });
+    }
+  }
 
   searchedItems = searchedText => {
     searchedText !== this.props.addButtonText && this.setState({text: searchedText});
